@@ -134,6 +134,7 @@ export default class SingleDatePickerInput extends React.Component {
             disabled={disabled}
             aria-label={phrases.focusStartDate}
             onClick={onFocus}
+            tabIndex="-1"
           >
             {inputIcon}
           </button>
