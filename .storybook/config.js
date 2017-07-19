@@ -1,8 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import { configure, addDecorator, setAddon } from '@kadira/storybook';
-import infoAddon from '@kadira/react-storybook-addon-info';
-import { setOptions } from '@kadira/storybook-addon-options';
+import { configure, addDecorator, setAddon } from '@storybook/react';
+import infoAddon from '@storybook/addon-info';
+import { setOptions } from '@storybook/addon-options';
+import './storybook.scss';
 import '../css/styles.scss';
 
 addDecorator((story) => {
@@ -59,6 +60,7 @@ function loadStories() {
   require('../stories/SingleDatePicker_calendar');
   require('../stories/SingleDatePicker_day');
   require('../stories/DayPickerRangeController');
+  require('../stories/DayPickerSingleDateController');
   require('../stories/DayPicker');
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import SingleDatePickerWrapper from '../examples/SingleDatePickerWrapper';
 
@@ -132,4 +132,11 @@ storiesOf('SDP - Calendar Props', module)
       isRTL
       autoFocus
     />
+  ))
+  .addWithInfo('with custom first day of week', () => (
+    <SingleDatePickerWrapper
+      firstDayOfWeek={3}
+      autoFocus
+    />
   ));
+

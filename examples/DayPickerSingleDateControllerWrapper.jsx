@@ -6,18 +6,18 @@ import { forbidExtraProps } from 'airbnb-prop-types';
 import moment from 'moment';
 import omit from 'lodash/omit';
 
-import DayPickerRangeController from '../src/components/DayPickerRangeController';
+import DayPickerSingleDateController from '../src/components/DayPickerSingleDateController';
 
 import ScrollableOrientationShape from '../src/shapes/ScrollableOrientationShape';
 
-import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION } from '../constants';
+import { HORIZONTAL_ORIENTATION } from '../constants';
 import isInclusivelyAfterDay from '../src/utils/isInclusivelyAfterDay';
 
 const propTypes = forbidExtraProps({
   // example props for the demo
-  autoFocusEndDate: PropTypes.bool,
-  initialStartDate: momentPropTypes.momentObj,
-  initialEndDate: momentPropTypes.momentObj,
+  autoFocus: PropTypes.bool,
+  initialDate: momentPropTypes.momentObj,
+  showInput: PropTypes.bool,
 
   keepOpenOnDateSelect: PropTypes.bool,
   minimumNights: PropTypes.number,
@@ -49,9 +49,9 @@ const propTypes = forbidExtraProps({
 
 const defaultProps = {
   // example props for the demo
-  autoFocusEndDate: false,
-  initialStartDate: null,
-  initialEndDate: null,
+  autoFocus: false,
+  initialDate: null,
+  showInput: false,
 
   // day presentation and interaction related props
   renderDay: null,
@@ -81,68 +81,61 @@ const defaultProps = {
   monthFormat: 'MMMM YYYY',
 };
 
-class DayPickerRangeControllerWrapper extends React.Component {
+class DayPickerSingleDateControllerWrapper extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      focusedInput: props.autoFocusEndDate ? END_DATE : START_DATE,
-      startDate: props.initialStartDate,
-      endDate: props.initialEndDate,
+      focused: true,
+      date: props.initialDate,
     };
 
-    this.onDatesChange = this.onDatesChange.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
     this.onFocusChange = this.onFocusChange.bind(this);
   }
 
-  onDatesChange({ startDate, endDate }) {
-    this.setState({ startDate, endDate });
+  onDateChange(date) {
+    this.setState({ date });
   }
 
-  onFocusChange(focusedInput) {
-    this.setState({
-      // Force the focusedInput to always be truthy so that dates are always selectable
-      focusedInput: !focusedInput ? START_DATE : focusedInput,
-    });
+  onFocusChange() {
+    // Force the focused states to always be truthy so that date is always selectable
+    this.setState({ focused: true });
   }
 
   render() {
-    const { showInputs } = this.props;
-    const { focusedInput, startDate, endDate } = this.state;
+    const { showInput } = this.props;
+    const { focused, date } = this.state;
 
     const props = omit(this.props, [
       'autoFocus',
-      'autoFocusEndDate',
-      'initialStartDate',
-      'initialEndDate',
+      'initialDate',
+      'showInput',
     ]);
 
-    const startDateString = startDate && startDate.format('YYYY-MM-DD');
-    const endDateString = endDate && endDate.format('YYYY-MM-DD');
+    const dateString = date && date.format('YYYY-MM-DD');
 
     return (
       <div>
-        {showInputs &&
+        {showInput &&
           <div style={{ marginBottom: 16 }}>
-            <input type="text" name="start date" value={startDateString} readOnly />
-            <input type="text" name="end date" value={endDateString} readOnly />
+            <input type="text" name="start date" value={dateString || ''} readOnly />
           </div>
         }
 
-        <DayPickerRangeController
+        <DayPickerSingleDateController
           {...props}
-          onDatesChange={this.onDatesChange}
+          onDateChange={this.onDateChange}
           onFocusChange={this.onFocusChange}
-          focusedInput={focusedInput}
-          startDate={startDate}
-          endDate={endDate}
+          focused={focused}
+          date={date}
         />
       </div>
     );
   }
 }
 
-DayPickerRangeControllerWrapper.propTypes = propTypes;
-DayPickerRangeControllerWrapper.defaultProps = defaultProps;
+DayPickerSingleDateControllerWrapper.propTypes = propTypes;
+DayPickerSingleDateControllerWrapper.defaultProps = defaultProps;
 
-export default DayPickerRangeControllerWrapper;
+export default DayPickerSingleDateControllerWrapper;

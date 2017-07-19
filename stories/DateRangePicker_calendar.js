@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf } from '@storybook/react';
 
 import { VERTICAL_ORIENTATION, ANCHOR_RIGHT } from '../constants';
 
@@ -136,12 +136,6 @@ storiesOf('DRP - Calendar Props', module)
       autoFocus
     />
   ))
-  .addWithInfo('with keyboard shorcuts panel hidden', () => (
-    <DateRangePickerWrapper
-      hideKeyboardShortcutsPanel
-      autoFocus
-    />
-  ))
   .addWithInfo('with RTL support (and anchor right)', () => (
     <div style={{ float: 'right' }}>
       <DateRangePickerWrapper
@@ -155,6 +149,12 @@ storiesOf('DRP - Calendar Props', module)
     <DateRangePickerWrapper
       orientation={VERTICAL_ORIENTATION}
       isRTL
+      autoFocus
+    />
+  ))
+  .addWithInfo('with custom first day of week', () => (
+    <DateRangePickerWrapper
+      firstDayOfWeek={3}
       autoFocus
     />
   ));
