@@ -4,6 +4,7 @@ import momentJalaali from 'moment-jalaali';
 import { storiesOf } from '@storybook/react';
 
 import DateRangePickerWrapper from '../examples/DateRangePickerWrapper';
+import TimTest from '../examples/TimTest';
 
 const TestInput = props => (
   <div style={{ marginTop: 16 }}>
@@ -50,6 +51,9 @@ class TestWrapper extends React.Component {
 }
 
 storiesOf('DateRangePicker (DRP)', module)
+  .addWithInfo('Test -- state-dependent isOutsideRange()', () => (
+    <TimTest />
+  ))
   .addWithInfo('default', () => (
     <DateRangePickerWrapper />
   ))

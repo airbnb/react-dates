@@ -221,7 +221,7 @@ export default class DayPickerSingleDateController extends React.Component {
       modifiers = this.addModifier(modifiers, date, 'selected');
     }
 
-    if (didFocusChange || recomputePropModifiers) {
+    if (didFocusChange || didDateChange || recomputePropModifiers) {
       values(visibleDays).forEach((days) => {
         Object.keys(days).forEach((day) => {
           const momentObj = moment(day);
