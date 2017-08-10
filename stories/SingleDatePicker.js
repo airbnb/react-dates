@@ -4,7 +4,6 @@ import momentJalaali from 'moment-jalaali';
 import { storiesOf } from '@storybook/react';
 
 import SingleDatePickerWrapper from '../examples/SingleDatePickerWrapper';
-import TimTestSingle from '../examples/TimTestSingle';
 
 const TestInput = props => (
   <div style={{ marginTop: 16 }} >
@@ -23,12 +22,6 @@ const TestInput = props => (
 );
 
 storiesOf('SingleDatePicker (SDP)', module)
-  .addWithInfo('Test -- state-dependent isOutsideRange()', () => (
-    <TimTestSingle
-      keepOpenOnDateSelect
-      autoFocus
-    />
-  ))
   .addWithInfo('default', () => (
     <SingleDatePickerWrapper />
   ))
