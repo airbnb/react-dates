@@ -5,6 +5,9 @@ node_js:
   - "6"
 before_install:
   - 'nvm install-latest-npm'
+  - mkdir -p $HOME/bin
+  - curl -fsSL https://testspace-client.s3.amazonaws.com/testspace-linux.tgz | tar -zxvf- -C $HOME/bin
+  - testspace config url $TS_ORG.testspace.com
 before_script:
   - 'if [ -n "${KARMA-}" ]; then export DISPLAY=:99.0; fi'
   - 'if [ -n "${KARMA-}" ]; then sh -e /etc/init.d/xvfb start; fi'
@@ -15,6 +18,14 @@ script:
   - 'if [ "${TEST-}" = true ]; then npm run tests-only ; fi'
   - 'if [ -n "${KARMA-}" ]; then npm run tests-karma ; fi'
   - 'if [ -n "${COVERAGE-}" ] && [ "${TRAVIS_BRANCH-}" = "master" ]; then npm run cover; cat ./coverage/lcov.info | ./node_modules/.bin/coveralls ; fi'
+after_script:
+  - if [ "${TEST-}" = true ]; then
+      testspace [Node-$TRAVIS_NODE_VERSION/React-$REACT]xunit.xml{test};
+    elif [ "${KARMA-}" = true ]; then
+      testspace [Node-${TRAVIS_NODE_VERSION%/*}/Karma]reports/karma/*.xml{test};
+    elif [ "${COVERAGE-}" = true ]; then
+      testspace [Node-${TRAVIS_NODE_VERSION%/*}/mocha]xunit.xml{test} --link=coveralls;
+    fi
 env:
   global:
     - TEST=true
