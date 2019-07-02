@@ -132,6 +132,12 @@ class CalendarMonth extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.setMonthTitleHeight === null && this.props.setMonthTitleHeight !== null) {
+      this.setMonthTitleHeightTimeout = setTimeout(this.setMonthTitleHeight, 0);
+    }
+  }
+
   componentWillUnmount() {
     if (this.setMonthTitleHeightTimeout) {
       clearTimeout(this.setMonthTitleHeightTimeout);
