@@ -82,7 +82,7 @@ describe('CalendarMonth', () => {
           />,
         );
 
-        return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(1));
+        return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 1));
       });
 
       describe('if the callbacks gets set again', () => {
@@ -95,12 +95,12 @@ describe('CalendarMonth', () => {
             />,
           );
 
-          return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(1))
+          return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 1))
             .then(() => {
               wrapper.setProps({ setMonthTitleHeight: null });
 
               wrapper.setProps({ setMonthTitleHeight: setMonthTitleHeightStub });
-              return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(2));
+              return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 2));
             });
         });
       });
