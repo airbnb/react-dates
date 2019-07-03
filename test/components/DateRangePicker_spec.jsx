@@ -15,7 +15,7 @@ import {
   START_DATE,
 } from '../../src/constants';
 
-const describeIfWindow = typeof document === 'undefined' ? describe.skip : describe;
+import { describeIfWindow } from '../_helpers/describeIfWindow';
 
 const requiredProps = {
   onDatesChange: () => {},

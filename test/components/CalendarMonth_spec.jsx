@@ -3,10 +3,9 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon-sandbox';
 import moment from 'moment';
+import { describeIfWindow } from '../_helpers/describeIfWindow';
 
 import CalendarMonth from '../../src/components/CalendarMonth';
-
-const describeIfWindow = typeof document === 'undefined' ? describe.skip : describe;
 
 const MAX_WAIT_TIME_IN_MS = 500;
 
