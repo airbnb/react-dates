@@ -1,10 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon-sandbox';
 import moment from 'moment';
 
 import CalendarMonth from '../../src/components/CalendarMonth';
+
+const describeIfWindow = typeof document === 'undefined' ? describe.skip : describe;
 
 describe('CalendarMonth', () => {
   describe('#render', () => {
@@ -45,6 +47,51 @@ describe('CalendarMonth', () => {
       expect(typeof onYearSelect).to.equal('function');
       expect(typeof isVisible).to.equal('boolean');
       expect(wrapper.find('#month-element').exists()).to.equal(true);
+    });
+
+    describeIfWindow('setMonthTitleHeight', () => {
+      const awaitChange = fn => new Promise((resolve, reject) => {
+        setTimeout(() => {
+          try {
+            fn();
+            resolve();
+          } catch (e) {
+            reject(e);
+          }
+        }, 1);
+      });
+
+      it('sets the title height after mount', () => {
+        const setMonthTitleHeightStub = sinon.stub();
+        mount(
+          <CalendarMonth
+            isVisible
+            setMonthTitleHeight={setMonthTitleHeightStub}
+          />,
+        );
+
+        return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(1));
+      });
+
+      describe('if the callbacks gets set again', () => {
+        it('updates the title height', () => {
+          const setMonthTitleHeightStub = sinon.stub();
+          const wrapper = mount(
+            <CalendarMonth
+              isVisible
+              setMonthTitleHeight={setMonthTitleHeightStub}
+            />,
+          );
+
+          return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(1))
+            .then(() => {
+              wrapper.setProps({ setMonthTitleHeight: null });
+
+              wrapper.setProps({ setMonthTitleHeight: setMonthTitleHeightStub });
+              return awaitChange(() => expect(setMonthTitleHeightStub.callCount).to.equal(2));
+            });
+        });
+      });
     });
   });
 });
