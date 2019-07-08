@@ -7,30 +7,6 @@ import { describeIfWindow } from '../_helpers/describeIfWindow';
 
 import CalendarMonth from '../../src/components/CalendarMonth';
 
-const MAX_WAIT_TIME_IN_MS = 500;
-
-export default function awaitChange(fn) {
-  const startTimestamp = Date.now();
-
-  return new Promise((resolve, reject) => {
-    const checkAndWait = () => {
-      try {
-        fn();
-        resolve();
-      } catch (e) {
-        if (Date.now() - startTimestamp > MAX_WAIT_TIME_IN_MS) {
-          reject(e);
-          return;
-        }
-
-        setTimeout(checkAndWait, 10);
-      }
-    };
-
-    checkAndWait();
-  });
-}
-
 describe('CalendarMonth', () => {
   describe('#render', () => {
     describe('data-visible attribute', () => {
@@ -73,6 +49,10 @@ describe('CalendarMonth', () => {
     });
 
     describeIfWindow('setMonthTitleHeight', () => {
+      beforeEach(() => {
+        sinon.stub(window, 'setTimeout').callsFake(handler => handler());
+      });
+
       it('sets the title height after mount', () => {
         const setMonthTitleHeightStub = sinon.stub();
         mount(
@@ -82,7 +62,7 @@ describe('CalendarMonth', () => {
           />,
         );
 
-        return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 1));
+        expect(setMonthTitleHeightStub).to.have.property('callCount', 1);
       });
 
       describe('if the callbacks gets set again', () => {
@@ -95,13 +75,12 @@ describe('CalendarMonth', () => {
             />,
           );
 
-          return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 1))
-            .then(() => {
-              wrapper.setProps({ setMonthTitleHeight: null });
+          expect(setMonthTitleHeightStub).to.have.property('callCount', 1);
 
-              wrapper.setProps({ setMonthTitleHeight: setMonthTitleHeightStub });
-              return awaitChange(() => expect(setMonthTitleHeightStub).to.have.property('callCount', 2));
-            });
+          wrapper.setProps({ setMonthTitleHeight: null });
+
+          wrapper.setProps({ setMonthTitleHeight: setMonthTitleHeightStub });
+          expect(setMonthTitleHeightStub).to.have.property('callCount', 2);
         });
       });
     });
