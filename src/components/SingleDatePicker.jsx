@@ -571,6 +571,7 @@ class SingleDatePicker extends React.PureComponent {
       css,
       styles,
       isOutsideRange,
+      isDayBlocked,
     } = this.props;
 
     const { isInputFocused } = this.state;
@@ -595,6 +596,7 @@ class SingleDatePicker extends React.PureComponent {
         showDefaultInputIcon={showDefaultInputIcon}
         inputIconPosition={inputIconPosition}
         isOutsideRange={isOutsideRange}
+        isDayBlocked={isDayBlocked}
         customCloseIcon={customCloseIcon}
         customInputIcon={customInputIcon}
         date={date}
