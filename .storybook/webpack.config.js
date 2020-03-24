@@ -5,7 +5,7 @@ module.exports = ({ config }) => {
     {
       test: /\.s?css$/,
       use: ['style-loader', 'raw-loader', 'sass-loader'],
-      include: [path.resolve(__dirname, '../css/')]
+      include: [path.resolve(__dirname, '../css/')],
     },
     {
       test: /\.svg$/,
@@ -13,10 +13,10 @@ module.exports = ({ config }) => {
         {
           loader: 'babel-loader',
           query: {
-            presets: ['airbnb']
-          }
-        }
-      ]
+            presets: ['airbnb'],
+          },
+        },
+      ],
     },
     {
       test: /\.jsx$/,
@@ -24,11 +24,11 @@ module.exports = ({ config }) => {
         {
           loader: 'babel-loader',
           query: {
-            presets: ['airbnb']
-          }
-        }
-      ]
-    }
+            presets: ['airbnb'],
+          },
+        },
+      ],
+    },
   );
   config.resolve.extensions = ['.js', '.jsx'];
   return config;
