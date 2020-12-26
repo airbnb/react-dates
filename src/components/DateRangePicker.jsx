@@ -6,6 +6,7 @@ import { forbidExtraProps } from 'airbnb-prop-types';
 import { addEventListener } from 'consolidated-events';
 import isTouchDevice from 'is-touch-device';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { darken } from 'color2k';
 
 import DateRangePickerShape from '../shapes/DateRangePickerShape';
 import { DateRangePickerPhrases } from '../defaultPhrases';
@@ -54,6 +55,8 @@ const defaultProps = {
   endDatePlaceholderText: 'End Date',
   startDateAriaLabel: undefined,
   endDateAriaLabel: undefined,
+  startDateTitleText: undefined,
+  endDateTitleText: undefined,
   startDateOffset: undefined,
   endDateOffset: undefined,
   disabled: false,
@@ -449,6 +452,7 @@ class DateRangePicker extends React.PureComponent {
       css,
       styles,
       verticalHeight,
+      noBorder,
       transitionDuration,
       verticalSpacing,
       horizontalMonthPadding,
@@ -546,6 +550,7 @@ class DateRangePicker extends React.PureComponent {
           firstDayOfWeek={firstDayOfWeek}
           weekDayFormat={weekDayFormat}
           verticalHeight={verticalHeight}
+          noBorder={noBorder}
           transitionDuration={transitionDuration}
           disabled={disabled}
           horizontalMonthPadding={horizontalMonthPadding}
@@ -573,10 +578,12 @@ class DateRangePicker extends React.PureComponent {
       startDateId,
       startDatePlaceholderText,
       startDateAriaLabel,
+      startDateTitleText,
       endDate,
       endDateId,
       endDatePlaceholderText,
       endDateAriaLabel,
+      endDateTitleText,
       focusedInput,
       screenReaderInputMessage,
       showClearDates,
@@ -623,11 +630,13 @@ class DateRangePicker extends React.PureComponent {
         startDatePlaceholderText={startDatePlaceholderText}
         isStartDateFocused={focusedInput === START_DATE}
         startDateAriaLabel={startDateAriaLabel}
+        startDateTitleText={startDateTitleText}
         endDate={endDate}
         endDateId={endDateId}
         endDatePlaceholderText={endDatePlaceholderText}
         isEndDateFocused={focusedInput === END_DATE}
         endDateAriaLabel={endDateAriaLabel}
+        endDateTitleText={endDateTitleText}
         displayFormat={displayFormat}
         showClearDates={showClearDates}
         showCaret={!withPortal && !withFullScreenPortal && !hideFang}
@@ -745,12 +754,12 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
     zIndex: zIndex + 2,
 
     ':hover': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      color: darken(color.core.grayLighter, 0.1),
       textDecoration: 'none',
     },
 
     ':focus': {
-      color: `darken(${color.core.grayLighter}, 10%)`,
+      color: darken(color.core.grayLighter, 0.1),
       textDecoration: 'none',
     },
   },

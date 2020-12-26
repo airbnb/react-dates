@@ -25,6 +25,7 @@ export default {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   ariaLabel: PropTypes.string,
+  titleText: PropTypes.string,
   disabled: PropTypes.bool,
   required: PropTypes.bool,
   readOnly: PropTypes.bool,
@@ -86,6 +87,8 @@ export default {
   isDayBlocked: PropTypes.func,
   isOutsideRange: PropTypes.func,
   isDayHighlighted: PropTypes.func,
+  minDate: momentPropTypes.momentObj,
+  maxDate: momentPropTypes.momentObj,
 
   // internationalization props
   displayFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
