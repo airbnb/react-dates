@@ -51,6 +51,7 @@ const defaultProps = {
   focusedInput: null,
 
   // input related props
+  className: undefined,
   startDatePlaceholderText: 'Start Date',
   endDatePlaceholderText: 'End Date',
   startDateAriaLabel: undefined,
@@ -573,6 +574,7 @@ class DateRangePicker extends React.PureComponent {
 
   render() {
     const {
+      className,
       startDate,
       startDateId,
       startDatePlaceholderText,
@@ -678,6 +680,7 @@ class DateRangePicker extends React.PureComponent {
         {...css(
           styles.DateRangePicker,
           block && styles.DateRangePicker__block,
+          className,
         )}
       >
         {enableOutsideClick && (

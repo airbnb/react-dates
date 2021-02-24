@@ -22,6 +22,7 @@ export default {
   onFocusChange: PropTypes.func.isRequired,
 
   // input related props
+  className: PropTypes.string,
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   ariaLabel: PropTypes.string,

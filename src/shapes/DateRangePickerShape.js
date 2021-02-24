@@ -27,6 +27,7 @@ export default {
   onClose: PropTypes.func,
 
   // input related props
+  className: PropTypes.string,
   startDateId: PropTypes.string.isRequired,
   startDatePlaceholderText: PropTypes.string,
   startDateOffset: PropTypes.func,
