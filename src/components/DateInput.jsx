@@ -16,6 +16,8 @@ import {
   FANG_WIDTH_PX,
   DEFAULT_VERTICAL_SPACING,
   MODIFIER_KEY_NAMES,
+  START_DATE,
+  END_DATE,
 } from '../constants';
 
 const FANG_PATH_TOP = `M0,${FANG_HEIGHT_PX} ${FANG_WIDTH_PX},${FANG_HEIGHT_PX} ${FANG_WIDTH_PX / 2},0z`;
@@ -40,6 +42,7 @@ const propTypes = forbidExtraProps({
   verticalSpacing: nonNegativeInteger,
   small: PropTypes.bool,
   block: PropTypes.bool,
+  noBorder: PropTypes.bool,
   regular: PropTypes.bool,
 
   onChange: PropTypes.func,
@@ -70,6 +73,7 @@ const defaultProps = {
   small: false,
   block: false,
   regular: false,
+  noBorder: false,
 
   onChange() {},
   onFocus() {},
@@ -192,6 +196,7 @@ class DateInput extends React.PureComponent {
       regular,
       block,
       styles,
+      noBorder,
       theme: { reactDates },
     } = this.props;
 
@@ -220,7 +225,8 @@ class DateInput extends React.PureComponent {
             small && styles.DateInput_input__small,
             regular && styles.DateInput_input__regular,
             readOnly && styles.DateInput_input__readOnly,
-            focused && styles.DateInput_input__focused,
+            focused && id === START_DATE && styles.DateInput_input__startDate_focused,
+            focused && id === END_DATE && styles.DateInput_input__endDate_focused,
             disabled && styles.DateInput_input__disabled,
           )}
           aria-label={ariaLabel === undefined ? placeholder : ariaLabel}
@@ -248,10 +254,10 @@ class DateInput extends React.PureComponent {
             {...css(
               styles.DateInput_fang,
               openDirection === OPEN_DOWN && {
-                top: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1,
+                top: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1 + (noBorder ? 1 : 0),
               },
               openDirection === OPEN_UP && {
-                bottom: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1,
+                bottom: inputHeight + verticalSpacing - FANG_HEIGHT_PX - 1 + (noBorder ? 1 : 0),
               },
             )}
           >
@@ -346,7 +352,17 @@ export default withStyles(({
     userSelect: 'none',
   },
 
-  DateInput_input__focused: {
+  DateInput_input__startDate_focused: {
+    outline: border.input.outlineFocused,
+    background: color.backgroundFocused,
+    border: border.input.borderFocused,
+    borderTop: border.input.borderTopFocused,
+    borderRight: border.input.borderRightFocused,
+    borderBottom: border.input.borderBottomFocused,
+    borderLeft: border.input.borderLeftFocused,
+  },
+
+  DateInput_input__endDate_focused: {
     outline: border.input.outlineFocused,
     background: color.backgroundFocused,
     border: border.input.borderFocused,
