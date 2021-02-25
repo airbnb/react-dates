@@ -339,7 +339,7 @@ export default withStyles(({
   },
 
   DateInput_input__regular: {
-    fontWeight: 'auto',
+    fontWeight: 'inherit',
   },
 
   DateInput_input__readOnly: {
