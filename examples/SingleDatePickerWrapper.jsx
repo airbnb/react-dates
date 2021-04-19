@@ -15,6 +15,7 @@ const propTypes = {
   // example props for the demo
   autoFocus: PropTypes.bool,
   initialDate: momentPropTypes.momentObj,
+  onInvalidInput: PropTypes.func,
 
   ...omit(SingleDatePickerShape, [
     'date',
@@ -28,6 +29,7 @@ const defaultProps = {
   // example props for the demo
   autoFocus: false,
   initialDate: null,
+  onInvalidInput: () => null,
 
   // input related props
   id: 'date',
@@ -70,7 +72,7 @@ const defaultProps = {
   renderDayContents: null,
   enableOutsideDays: false,
   isDayBlocked: () => false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isOutsideRange: (day) => !isInclusivelyAfterDay(day, moment()),
   isDayHighlighted: () => {},
 
   // internationalization props
@@ -91,8 +93,12 @@ class SingleDatePickerWrapper extends React.Component {
     this.onFocusChange = this.onFocusChange.bind(this);
   }
 
-  onDateChange(date) {
+  onDateChange(date, invalidDateString) {
+    const { onInvalidInput } = this.props;
     this.setState({ date });
+    if (invalidDateString) {
+      onInvalidInput(invalidDateString);
+    }
   }
 
   onFocusChange({ focused }) {
@@ -107,6 +113,7 @@ class SingleDatePickerWrapper extends React.Component {
     const props = omit(this.props, [
       'autoFocus',
       'initialDate',
+      'onInvalidInput',
     ]);
 
     return (
